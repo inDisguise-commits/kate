@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func RandPoly(l int) []bls12381.Fr {
-	p := make([]bls12381.Fr, l)
-	for i := 0; i < l; i++ {
+func RandPoly(d int) Poly {
+	p := NewPolyWithDegreeD(d)
+	for i := 0; i < d; i++ {
 		z, _ := new(bls12381.Fr).Rand(rand.Reader)
 		p[i].Set(z)
 	}
@@ -32,7 +32,8 @@ func TestOrderedPoly(t *testing.T) {
 }
 
 func TestAdditionProperties(t *testing.T) {
-	zeroPoly := Zero()
+	zeroPoly := NewPolyWithDegreeD(1)
+	zeroPoly.Zero()
 	p := RandPoly(8)
 	if !Equal(Add(zeroPoly, p), p) {
 		t.Fatal("0+p != p")
